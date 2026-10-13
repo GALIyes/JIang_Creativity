@@ -1,0 +1,45 @@
+#ifndef APP_UART_DEBUG_H
+#define APP_UART_DEBUG_H
+
+#include "main.h"
+
+void app_log_init(void);
+void app_log_write(const char *text);
+void app_log_printf(const char *fmt, ...);
+uint8_t app_uart_debug_get_char(uint8_t *ch);
+
+typedef struct {
+    uint8_t gpsdo2;
+    uint8_t legacy_gpsdo10;
+    uint8_t rtc_phase;
+    uint8_t phase10;
+    uint8_t event;
+    uint8_t dac_adjust;
+    uint8_t gpsdo_phase;
+    uint8_t gpsdo_avg;
+} app_log_flags_t;
+
+void app_log_get_flags(app_log_flags_t *flags);
+void app_log_set_rtc_phase(uint8_t enable);
+void app_log_set_phase10(uint8_t enable);
+void app_log_set_phase_detail(uint8_t enable);
+void app_log_set_legacy_gpsdo10(uint8_t enable);
+void app_log_set_event(uint8_t enable);
+void app_log_set_dac_adjust(uint8_t enable);
+uint8_t app_log_gpsdo2_enabled(void);
+uint8_t app_log_legacy_gpsdo10_enabled(void);
+uint8_t app_log_rtc_phase_enabled(void);
+uint8_t app_log_phase10_enabled(void);
+uint8_t app_log_event_enabled(void);
+uint8_t app_log_dac_adjust_enabled(void);
+uint8_t app_log_gpsdo_phase_enabled(void);
+uint8_t app_log_gpsdo_avg_enabled(void);
+void app_log_print_voltage_uv(uint32_t uv);
+void app_log_print_voltage_uv6(uint32_t uv);
+uint32_t app_log_dac_code_to_uv(uint16_t code);
+void app_log_dac_adjust_event(const char *source, uint16_t from_code, uint16_t to_code,
+                              uint32_t from_uv, uint32_t to_uv, const char *reason);
+void app_log_dac_adjust_fail_event(const char *source, uint16_t from_code, uint16_t to_code,
+                                   const char *reason, HAL_StatusTypeDef status);
+
+#endif /* APP_UART_DEBUG_H */
