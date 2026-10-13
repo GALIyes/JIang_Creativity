@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王者荣耀 x 迪迦奥特曼 | 墨子联动皮肤</title>
+    <style>
+        :root {
+            --gold: #c9a96e;
+            --gold-light: #e8d5a3;
+            --tiga-silver: #c0c8d4;
+            --tiga-red: #e04050;
+            --tiga-purple: #7b4fbf;
+            --tiga-blue: #3a8fd4;
+            --tiga-cyan: #4dc8e8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #020210;
+            font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+            overflow-x: hidden;
+            cursor: default;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ================================================================
+           背景系统
+           ================================================================ */
+
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 深空底 */
+        .bg-base {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 120% 80% at 50% 40%, #0e0b22 0%, #060418 35%, #02010c 100%);
+        }
+
+        /* ---- 星云（左右两团彩色） ---- */
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: nebulaDrift 12s ease-in-out infinite;
+        }
+        .nebula.left {
+            width: 500px; height: 500px;
+            top: 10%; left: -8%;
+            background: radial-gradient(circle, rgba(123,79,191,0.15) 0%, rgba(58,143,212,0.06) 40%, transparent 70%);
+        }
+        .nebula.right {
+            width: 450px; height: 450px;
+            top: 55%; right: -8%;
+            background: radial-gradient(circle, rgba(212,48,64,0.1) 0%, rgba(200,160,80,0.06) 40%, transparent 70%);
+            animation-delay: 6s;
+        }
+        @keyframes nebulaDrift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25%      { transform: translate(30px, -15px) scale(1.08); }
+            50%      { transform: translate(-10px, 20px) scale(0.94); }
+            75%      { transform: translate(-20px, -10px) scale(1.04); }
+        }
+
+        /* ---- 巨型迪迦彩色计时器 ---- */
+        .tiga-timer-container {
+            position: absolute;
+            top: 44%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 340px; height: 340px;
+        }
+
+        .tiga-timer-core {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                rgba(77, 200, 232, 0.25) 0%,
+                rgba(58, 143, 212, 0.12) 25%,
+                rgba(123, 79, 191, 0.05) 55%,
+                transparent 72%
+            );
+            animation: timerBreath 2.8s ease-in-out infinite;
+            filter: blur(4px);
+        }
+        @keyframes timerBreath {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50%      { opacity: 1;   transform: scale(1.2); }
+        }
+
+        /* 计时器外环 */
+        .tiga-timer-ring {
+            position: absolute; inset: -30px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(77, 200, 232, 0.15);
+            animation: ringRotate 20s linear infinite;
+        }
+        .tiga-timer-ring::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: 50%;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--tiga-cyan);
+            box-shadow: 0 0 12px var(--tiga-cyan);
+            transform: translateX(-50%);
+        }
+        @keyframes ringRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 计时器红色警告（间歇闪烁） */
+        .tiga-timer-alert {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                rgba(224, 64, 80, 0.4) 0%,
+                rgba(224, 64, 80, 0.12) 35%,
+                transparent 65%
+            );
+            animation: timerAlert 1.2s ease-in-out infinite;
+            filter: blur(10px);
+        }
+        @keyframes timerAlert {
+            0%, 55%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            30%           { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+        }
+
+        /* ---- 光之能量柱（从天而降） ---- */
+        .light-pillar {
+            position: absolute;
+            left: 50%;
+            top: -250px;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 1200px;
+            background: linear-gradient(to bottom,
+                transparent 0%,
+                rgba(192, 200, 212, 0.03) 10%,
+                rgba(77, 200, 232, 0.06) 25%,
+                rgba(123, 79, 191, 0.04) 45%,
+                rgba(58, 143, 212, 0.06) 60%,
+                rgba(192, 200, 212, 0.02) 80%,
+                transparent 100%
+            );
+            filter: blur(20px);
+            animation: pillarPulse 6s ease-in-out infinite;
+            mask-image: linear-gradient(to bottom, transparent 5%, black 25%, black 75%, transparent 95%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 5%, black 25%, black 75%, transparent 95%);
+        }
+        @keyframes pillarPulse {
+            0%, 100% { opacity: 0.3; }
+            50%      { opacity: 0.8; }
+        }
+
+        /* 细光束 */
+        .thin-beam {
+            position: absolute;
+            background: linear-gradient(to bottom,
+                transparent 5%,
+                rgba(192,200,212,0.2) 30%,
+                rgba(77,200,232,0.15) 50%,
+                rgba(192,200,212,0.1) 70%,
+                transparent 95%
+            );
+            filter: blur(2px);
+            transform-origin: top center;
+        }
+        .thin-beam.b1 {
+            left: 22%; top: -300px;
+            width: 2px; height: 1000px;
+            transform: rotate(-10deg);
+            animation: beamFloat 8s ease-in-out infinite;
+        }
+        .thin-beam.b2 {
+            left: 50%; top: -300px;
+            width: 3px; height: 1100px;
+            transform: rotate(2deg);
+            animation: beamFloat 9s ease-in-out infinite 1.5s;
+        }
+        .thin-beam.b3 {
+            left: 76%; top: -300px;
+            width: 2px; height: 950px;
+            transform: rotate(12deg);
+            animation: beamFloat 8.5s ease-in-out infinite 3s;
+        }
+        @keyframes beamFloat {
+            0%, 100% { opacity: 0.2; }
+            50%      { opacity: 0.7; }
+        }
+
+        /* ---- 能量扩散环 ---- */
+        .shockwave {
+            position: absolute;
+            top: 44%; left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid rgba(77, 200, 232, 0.12);
+        }
+        .shockwave:nth-child(1) { animation: shockwaveExpand 4s ease-out infinite; }
+        .shockwave:nth-child(2) { animation: shockwaveExpand 4s ease-out infinite 1.3s; }
+        .shockwave:nth-child(3) { animation: shockwaveExpand 4s ease-out infinite 2.6s; }
+        @keyframes shockwaveExpand {
+            0%   { width: 140px; height: 140px; opacity: 0.8; }
+            100% { width: 900px; height: 900px; opacity: 0; }
+        }
+
+        /* ---- 金色聚光灯 ---- */
+        .bg-spotlight {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(ellipse, rgba(200,150,60,0.08) 0%, transparent 60%);
+            animation: spotlightPulse 5s ease-in-out infinite;
+        }
+        @keyframes spotlightPulse {
+            0%, 100% { opacity: 0.5; }
+            50%      { opacity: 0.9; }
+        }
+
+        /* ---- 网格 ---- */
+        .bg-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        /* ---- 星点 ---- */
+        .stars { position: absolute; inset: 0; }
+        .star {
+            position: absolute; border-radius: 50%; background: white;
+            animation: starTwinkle ease-in-out infinite;
+        }
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.15; }
+            50%      { opacity: 0.85; }
+        }
+
+        /* ================================================================
+           粒子系统
+           ================================================================ */
+        .particles {
+            position: fixed; inset: 0;
+            pointer-events: none; z-index: 0;
+        }
+        .p {
+            position: absolute; border-radius: 50%;
+            animation: float linear infinite; opacity: 0;
+        }
+        /* 粒子颜色 */
+        .p.gold   { background: var(--gold); }
+        .p.blue   { background: var(--tiga-blue);   box-shadow: 0 0 8px var(--tiga-blue); }
+        .p.purple { background: var(--tiga-purple); box-shadow: 0 0 8px var(--tiga-purple); }
+        .p.cyan   { background: var(--tiga-cyan);   box-shadow: 0 0 10px var(--tiga-cyan); }
+        .p.red    { background: var(--tiga-red);    box-shadow: 0 0 6px var(--tiga-red); }
+
+        @keyframes float {
+            0%   { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
+            8%   { opacity: 0.9; }
+            25%  { opacity: 0.5; }
+            60%  { opacity: 0.1; }
+            100% { transform: translateY(-105vh) translateX(60px) scale(1.4); opacity: 0; }
+        }
+
+        /* ================================================================
+           主内容
+           ================================================================ */
+        .main-container {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 34px;
+            padding: 50px 20px;
+        }
+
+        /* ---- 标题 ---- */
+        .header { text-align: center; }
+
+        .crossover-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .crossover-badge .brand {
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--gold-light);
+            opacity: 0.8;
+        }
+        .crossover-badge .cross {
+            width: 18px; height: 18px;
+            position: relative;
+        }
+        .crossover-badge .cross::before,
+        .crossover-badge .cross::after {
+            content: '';
+            position: absolute;
+            background: var(--tiga-cyan);
+            opacity: 0.6;
+        }
+        .crossover-badge .cross::before {
+            top: 50%; left: 0; right: 0; height: 1px;
+            transform: translateY(-50%);
+        }
+        .crossover-badge .cross::after {
+            left: 50%; top: 0; bottom: 0; width: 1px;
+            transform: translateX(-50%);
+        }
+
+        .header-tag {
+            display: inline-block;
+            padding: 4px 20px;
+            border: 1px solid rgba(77, 200, 232, 0.35);
+            color: var(--tiga-cyan);
+            font-size: 12px;
+            letter-spacing: 5px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .header-tag::before,
+        .header-tag::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 6px;
+            color: var(--tiga-cyan);
+            opacity: 0.7;
+        }
+        .header-tag::before { left: -14px; }
+        .header-tag::after  { right: -14px; }
+
+        .header h1 {
+            font-size: 48px; font-weight: 900;
+            background: linear-gradient(180deg,
+                #f0f4f8 0%,
+                #c0c8d4 20%,
+                #4dc8e8 45%,
+                #7b4fbf 70%,
+                #3a8fd4 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 8px;
+            line-height: 1.2;
+            filter: drop-shadow(0 0 20px rgba(77, 200, 232, 0.5))
+                    drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .header .subtitle {
+            color: rgba(192, 200, 212, 0.6);
+            font-size: 14px;
+            letter-spacing: 4px;
+            margin-top: 8px;
+        }
+
+        /* ---- 图片展示 ---- */
+        .skin-showcase {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 光晕组合：蓝紫金三层 */
+        .skin-glow-layer {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .skin-glow-layer.outer {
+            width: 125%; height: 125%;
+            background: radial-gradient(circle,
+                rgba(58,143,212,0.15) 0%,
+                rgba(123,79,191,0.06) 40%,
+                transparent 70%
+            );
+            animation: glowOuter 4s ease-in-out infinite;
+        }
+        .skin-glow-layer.inner {
+            width: 105%; height: 105%;
+            background: radial-gradient(circle,
+                rgba(77,200,232,0.2) 0%,
+                rgba(201,169,110,0.06) 45%,
+                transparent 65%
+            );
+            animation: glowInner 4s ease-in-out infinite;
+        }
+        @keyframes glowOuter {
+            0%, 100% { opacity: 0.4; transform: scale(0.92); }
+            50%      { opacity: 0.9; transform: scale(1.08); }
+        }
+        @keyframes glowInner {
+            0%, 100% { opacity: 0.5; transform: scale(0.95); }
+            50%      { opacity: 1;   transform: scale(1.05); }
+        }
+
+        /* 卡片 */
+        .skin-card {
+            position: relative;
+            background: linear-gradient(180deg,
+                rgba(18, 16, 32, 0.94) 0%,
+                rgba(10, 8, 20, 0.97) 100%
+            );
+            border: 1px solid rgba(192, 200, 212, 0.18);
+            border-radius: 4px;
+            padding: 6px;
+            box-shadow:
+                0 0 100px rgba(77, 200, 232, 0.1),
+                0 0 50px rgba(123, 79, 191, 0.08),
+                0 0 25px rgba(201, 169, 110, 0.06),
+                0 30px 80px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        box-shadow 0.4s ease;
+        }
+        .skin-card:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 0 140px rgba(77, 200, 232, 0.18),
+                0 0 70px rgba(123, 79, 191, 0.12),
+                0 0 35px rgba(201, 169, 110, 0.1),
+                0 40px 90px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* 四角：两种颜色交替 */
+        .skin-card .corner {
+            position: absolute;
+            width: 26px; height: 26px;
+            pointer-events: none; z-index: 2;
+        }
+        .skin-card .corner.tl {
+            top: -1px; left: -1px;
+            border-top: 2px solid var(--tiga-cyan);
+            border-left: 2px solid var(--tiga-cyan);
+        }
+        .skin-card .corner.tr {
+            top: -1px; right: -1px;
+            border-top: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+        .skin-card .corner.bl {
+            bottom: -1px; left: -1px;
+            border-bottom: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+        .skin-card .corner.br {
+            bottom: -1px; right: -1px;
+            border-bottom: 2px solid var(--tiga-cyan);
+            border-right: 2px solid var(--tiga-cyan);
+        }
+
+        .skin-card img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border-radius: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 底部遮罩 */
+        .skin-card .img-overlay {
+            position: absolute;
+            bottom: 6px; left: 6px; right: 6px;
+            height: 70px;
+            background: linear-gradient(to top, rgba(6, 4, 14, 0.92), transparent);
+            border-radius: 0 0 2px 2px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ---- 信息栏 ---- */
+        .info-bar {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .info-item {
+            text-align: center;
+        }
+        .info-item .label {
+            color: rgba(192, 200, 212, 0.4);
+            font-size: 11px;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .info-item .value {
+            color: #e0e4ec;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .info-item .value.highlight {
+            color: var(--tiga-cyan);
+            text-shadow: 0 0 12px rgba(77, 200, 232, 0.5);
+        }
+        .info-divider {
+            width: 1px; height: 28px;
+            background: linear-gradient(to bottom, transparent, rgba(192,200,212,0.2), transparent);
+        }
+
+        /* ---- 按钮 ---- */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 52px;
+            background: linear-gradient(180deg, #3a3a5c 0%, #1a1a30 100%);
+            color: #e8ecf2;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            border: 1px solid rgba(77, 200, 232, 0.3);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                transparent 0%,
+                rgba(77,200,232,0.1) 50%,
+                transparent 100%
+            );
+            transition: opacity 0.35s ease;
+            opacity: 0;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(77,200,232,0.15), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-primary:hover {
+            border-color: rgba(77, 200, 232, 0.6);
+            box-shadow: 0 0 45px rgba(77, 200, 232, 0.3),
+                        0 0 15px rgba(123, 79, 191, 0.2),
+                        inset 0 0 30px rgba(77, 200, 232, 0.05);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+        .btn-primary:hover::before { opacity: 1; }
+        .btn-primary:hover::after { left: 150%; }
+
+        /* ---- 底部 ---- */
+        .bottom-ornament {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            opacity: 0.35;
+        }
+        .bottom-ornament .line {
+            width: 70px; height: 1px;
+            background: linear-gradient(to right, transparent, var(--tiga-silver), transparent);
+        }
+        .bottom-ornament .diamond {
+            width: 5px; height: 5px;
+            background: var(--tiga-cyan);
+            transform: rotate(45deg);
+            box-shadow: 0 0 6px var(--tiga-cyan);
+        }
+
+        /* ================================================================
+           响应式
+           ================================================================ */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 30px; letter-spacing: 4px; }
+            .skin-card { padding: 4px; }
+            .info-bar { gap: 18px; }
+            .info-divider { display: none; }
+            .info-item .value { font-size: 14px; }
+            .btn-primary { padding: 10px 36px; font-size: 13px; }
+            .tiga-timer-container { width: 220px; height: 220px; }
+            .tiga-timer-alert { width: 70px; height: 70px; }
+            .crossover-badge { flex-wrap: wrap; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== 背景层 ========== -->
+    <div class="bg-layer">
+        <div class="bg-base"></div>
+
+        <!-- 星云 -->
+        <div class="nebula left"></div>
+        <div class="nebula right"></div>
+
+        <!-- 星空 -->
+        <div class="stars"></div>
+
+        <!-- 光之能量柱 -->
+        <div class="light-pillar"></div>
+
+        <!-- 细光束 -->
+        <div class="thin-beam b1"></div>
+        <div class="thin-beam b2"></div>
+        <div class="thin-beam b3"></div>
+
+        <!-- 迪迦计时器系统 -->
+        <div class="tiga-timer-container">
+            <div class="tiga-timer-core"></div>
+            <div class="tiga-timer-ring"></div>
+        </div>
+        <div class="tiga-timer-alert"></div>
+
+        <!-- 能量冲击波 -->
+        <div class="shockwave" style="width:140px; height:140px;"></div>
+        <div class="shockwave" style="width:140px; height:140px;"></div>
+        <div class="shockwave" style="width:140px; height:140px;"></div>
+
+        <!-- 聚光灯 -->
+        <div class="bg-spotlight"></div>
+
+        <!-- 网格 -->
+        <div class="bg-grid"></div>
+    </div>
+
+    <!-- ========== 粒子 ========== -->
+    <div class="particles">
+        <div class="p gold" style="left:8%; bottom:-20px; width:3px; height:3px; animation-duration:7.5s; animation-delay:0s;"></div>
+        <div class="p gold" style="left:25%; bottom:-35px; width:2px; height:2px; animation-duration:9s; animation-delay:2s;"></div>
+        <div class="p gold" style="left:45%; bottom:-15px; width:4px; height:4px; animation-duration:6.5s; animation-delay:1s;"></div>
+        <div class="p gold" style="left:68%; bottom:-28px; width:2px; height:2px; animation-duration:10s; animation-delay:3s;"></div>
+        <div class="p gold" style="left:85%; bottom:-22px; width:3px; height:3px; animation-duration:8s; animation-delay:0.5s;"></div>
+        <div class="p gold" style="left:35%; bottom:-45px; width:3px; height:3px; animation-duration:8.5s; animation-delay:4s;"></div>
+
+        <div class="p blue" style="left:5%; bottom:-45px; width:4px; height:4px; animation-duration:7s; animation-delay:0.6s;"></div>
+        <div class="p blue" style="left:38%; bottom:-55px; width:5px; height:5px; animation-duration:9.5s; animation-delay:2.5s;"></div>
+        <div class="p blue" style="left:62%; bottom:-30px; width:3px; height:3px; animation-duration:8s; animation-delay:4.2s;"></div>
+        <div class="p blue" style="left:88%; bottom:-40px; width:4px; height:4px; animation-duration:7.8s; animation-delay:1.8s;"></div>
+
+        <div class="p purple" style="left:15%; bottom:-38px; width:4px; height:4px; animation-duration:8.8s; animation-delay:3.2s;"></div>
+        <div class="p purple" style="left:52%; bottom:-48px; width:3px; height:3px; animation-duration:7.2s; animation-delay:0.4s;"></div>
+        <div class="p purple" style="left:75%; bottom:-32px; width:5px; height:5px; animation-duration:9s; animation-delay:5s;"></div>
+
+        <div class="p cyan" style="left:20%; bottom:-55px; width:3px; height:3px; animation-duration:7.6s; animation-delay:1.2s;"></div>
+        <div class="p cyan" style="left:58%; bottom:-42px; width:4px; height:4px; animation-duration:8.3s; animation-delay:2.8s;"></div>
+        <div class="p cyan" style="left:82%; bottom:-50px; width:3px; height:3px; animation-duration:9.2s; animation-delay:4.5s;"></div>
+
+        <div class="p red" style="left:42%; bottom:-25px; width:3px; height:3px; animation-duration:5s; animation-delay:1s;"></div>
+        <div class="p red" style="left:56%; bottom:-35px; width:4px; height:4px; animation-duration:5.5s; animation-delay:3s;"></div>
+    </div>
+
+    <!-- ========== 主内容 ========== -->
+    <div class="main-container">
+
+        <div class="header">
+            <div class="crossover-badge">
+                <span class="brand">王者荣耀</span>
+                <span class="cross"></span>
+                <span class="brand">迪迦奥特曼</span>
+            </div>
+            <div class="header-tag">◆ 联动限定 ◆</div>
+            <h1>墨子 · 光之巨人</h1>
+            <p class="subtitle">—— 全新联动珍品传说皮肤 即将降临王者峡谷 ——</p>
+        </div>
+
+        <div class="skin-showcase">
+            <div class="skin-glow-layer outer"></div>
+            <div class="skin-glow-layer inner"></div>
+            <div class="skin-card">
+                <div class="corner tl"></div>
+                <div class="corner tr"></div>
+                <div class="corner bl"></div>
+                <div class="corner br"></div>
+                <img src="https://img.dingxinwen.cn/image/20260315/4338171879a06a146d32e43289a9dbb9.jpg" alt="墨子迪迦奥特曼联动皮肤">
+                <div class="img-overlay"></div>
+            </div>
+        </div>
+
+        <div class="info-bar">
+            <div class="info-item">
+                <div class="label">品质</div>
+                <div class="value highlight">珍品传说</div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-item">
+                <div class="label">英雄</div>
+                <div class="value">墨子</div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-item">
+                <div class="label">联动 IP</div>
+                <div class="value">迪迦奥特曼</div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-item">
+                <div class="label">上线时间</div>
+                <div class="value">7月16日</div>
+            </div>
+        </div>
+
+        <a href="#" class="btn-primary">
+            <span>▸</span> 了 解 更 多
+        </a>
+
+        <div class="bottom-ornament">
+            <span class="line"></span>
+            <span class="diamond"></span>
+            <span class="line"></span>
+        </div>
+    </div>
+
+    <!-- ========== 星空 JS ========== -->
+    <script>
+    (function() {
+        const starsEl = document.querySelector('.stars');
+        let html = '';
+        for (let i = 0; i < 100; i++) {
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const s = Math.random() * 2.2 + 0.4;
+            const dur = Math.random() * 4 + 3;
+            const delay = Math.random() * 6;
+            const c = Math.random();
+            const clr = c < 0.15 ? 'rgba(77,200,232,0.8)'    // 迪迦青
+                      : c < 0.25 ? 'rgba(201,169,110,0.7)'    // 王者金
+                      : c < 0.35 ? 'rgba(123,79,191,0.7)'    // 迪迦紫
+                      : 'rgba(255,255,255,0.6)';             // 普通白
+            html += `<div class="star" style="
+                left:${x}%; top:${y}%;
+                width:${s}px; height:${s}px;
+                background:${clr};
+                animation-duration:${dur}s;
+                animation-delay:${delay}s;
+            "></div>`;
+        }
+        starsEl.innerHTML = html;
+    })();
+    </script>
+
+</body>
+</html>
